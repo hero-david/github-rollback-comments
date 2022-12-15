@@ -4,7 +4,7 @@ on:
     types: [closed]
 
 permissions:
-  issues: write
+#  issues: write
   pull-requests: write
 #  actions: read|write|none
 #  checks: read|write|none
