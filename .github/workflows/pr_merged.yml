@@ -38,19 +38,19 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `🚀 Whoosh! ✨
-               There's your code, off she goes! 🧙
+              body: `🚀 Whoosh! ✨ There's your code, off she goes! 🧙
 
-               Prior to your deployment, the build version was: ${ROLLBACK_VERSION}
-               This has been overwritten with: ${DEPLOYMENT_VERSION}
+            Prior to your deployment, the build version was: ${ROLLBACK_VERSION}
+            This has been overwritten with: ${DEPLOYMENT_VERSION}
 
-               You can rollback with the following command:
-                  \`\`\`console
-                  kubectl rollout undo deployment ${DEPLOYMENT_NAME}-deployment
-                  \`\`\`
+            You can rollback with the following command:
+            \`\`\`console
+            kubectl rollout undo deployment ${DEPLOYMENT_NAME}-deployment
+            \`\`\`
 
                 
-               Or, to set rollback using an explicit image tag:
-                  kubectl set image deployment/${DEPLOYMENT_NAME} container=${DEPLOYMENT_NAME} --record=true --namespace=${NAMESPACE}
-              `
-            })
+            Or, to set rollback using an explicit image tag:
+            \`\`\`console
+            kubectl set image deployment/${DEPLOYMENT_NAME} container=${DEPLOYMENT_NAME} --record=true --namespace=${NAMESPACE}
+            \`\`\`
+            `})
