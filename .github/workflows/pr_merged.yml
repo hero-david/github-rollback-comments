@@ -25,7 +25,7 @@ jobs:
       - name: "debug"
         run: echo $JSON 
         env:
-          JSON: ${{ toJSON(github.event) }}
+          JSON: ${{ toJSON(github.event.pull_request) }}
      
   comment_rollback:
     runs-on: ubuntu-latest
