@@ -1,0 +1,37 @@
+on:
+  pull_request_target:
+    branches: [production]
+    types: [closed]
+
+permissions: {}
+#  actions: read|write|none
+#  checks: read|write|none
+#  contents: read|write|none
+#  deployments: read|write|none
+#  id-token: read|write|none
+#  issues: read|write|none
+#  discussions: read|write|none
+#  packages: read|write|none
+#  pages: read|write|none
+#  pull-requests: read|write|none
+#  repository-projects: read|write|none
+#  security-events: read|write|none
+#  statuses: read|write|none
+  
+jobs:
+  comment_rollback:
+    if: github.event.pull_request.merged == 'true'
+    steps: 
+      # TODO: reach out somewhere and get an actual version.
+      - name: "Fetch current version"
+        runs: echo "" >> $GITHUB_OUTPUT
+        
+      - uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 Thanks for reporting!'
+            })
