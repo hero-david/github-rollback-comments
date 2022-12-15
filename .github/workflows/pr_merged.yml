@@ -5,6 +5,7 @@ on:
 
 permissions:
   issues: write
+  pull-requests: write
 #  actions: read|write|none
 #  checks: read|write|none
 #  contents: read|write|none
@@ -13,7 +14,6 @@ permissions:
 #  discussions: read|write|none
 #  packages: read|write|none
 #  pages: read|write|none
-#  pull-requests: read|write|none
 #  repository-projects: read|write|none
 #  security-events: read|write|none
 #  statuses: read|write|none
@@ -37,6 +37,7 @@ jobs:
         
       - uses: actions/github-script@v5
         with:
+          #token: ${{ github.token }}
           script: |
             github.rest.issues.createComment({
               issue_number: context.issue.number,
