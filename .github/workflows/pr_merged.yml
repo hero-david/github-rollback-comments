@@ -45,7 +45,10 @@ jobs:
                This has been overwritten with: ${DEPLOYMENT_VERSION}
 
                You can rollback with the following command:
+                  \`\`\`console
                   kubectl rollout undo deployment ${DEPLOYMENT_NAME}-deployment
+                  \`\`\`
+
                 
                Or, to set rollback using an explicit image tag:
                   kubectl set image deployment/${DEPLOYMENT_NAME} container=${DEPLOYMENT_NAME} --record=true --namespace=${NAMESPACE}
