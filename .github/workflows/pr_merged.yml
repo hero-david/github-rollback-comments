@@ -37,7 +37,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `🚀 Whoosh! ✨
-               There's your code, off she goes! 🧙`
+               There's your code, off she goes! 🧙
 
                Prior to your deployment, the build version was: ${ROLLBACK_VERSION}
                This has been overwritten with: ${$DEPLOYMENT_VERSION}
@@ -47,4 +47,5 @@ jobs:
                 
                Or, to set rollback using an explicit image tag:
                   kubectl set image deployment/${DEPLOYMENT_NAME} container=${DEPLOYMENT_NAME} --record=true --namespace=${NAMESPACE}
+              `
             })
