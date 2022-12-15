@@ -4,20 +4,8 @@ on:
     types: [closed]
 
 permissions:
-#  issues: write
   pull-requests: write
-#  actions: read|write|none
-#  checks: read|write|none
-#  contents: read|write|none
-#  deployments: read|write|none
-#  id-token: read|write|none
-#  discussions: read|write|none
-#  packages: read|write|none
-#  pages: read|write|none
-#  repository-projects: read|write|none
-#  security-events: read|write|none
-#  statuses: read|write|none
-  
+
 jobs:
   debug:
     runs-on: ubuntu-latest
@@ -33,15 +21,30 @@ jobs:
     steps: 
       # TODO: reach out somewhere and get an actual version.
       - name: "Fetch current version"
-        run: echo "" >> $GITHUB_OUTPUT
+        id: current_version
+        run: echo "version=1.0.0" >> $GITHUB_OUTPUT
         
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v6
+        env:
+          ROLLBACK_VERSION: ${{ steps.current_version.outputs.version }}
+          DEPLOYMENT_VERSION: ${{ github.run_number }} 
+          DEPLOYMENT_NAME: ${{ github.event.repository.name }}
+          NAMESPACE: ${{ github.ref_name}}
         with:
-          #token: ${{ github.token }}
           script: |
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '👋 Thanks for reporting!'
+              body: `🚀 Whoosh! ✨
+               There's your code, off she goes! 🧙`
+
+               Prior to your deployment, the build version was: ${ROLLBACK_VERSION}
+               This has been overwritten with: ${$DEPLOYMENT_VERSION}
+
+               You can rollback with the following command:
+                  kubectl rollout undo deployment ${DEPLOYMENT_NAME}-deployment
+                
+               Or, to set rollback using an explicit image tag:
+                  kubectl set image deployment/${DEPLOYMENT_NAME} container=${DEPLOYMENT_NAME} --record=true --namespace=${NAMESPACE}
             })
