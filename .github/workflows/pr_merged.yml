@@ -21,11 +21,11 @@ jobs:
     steps: 
       # TODO: reach out somewhere and get an actual version.
       - name: "Fetch current version"
-        run: echo "" >> $GITHUB_OUTPUT
+        id: current_version
+        run: echo "version=1.0.0" >> $GITHUB_OUTPUT
         
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v6
         with:
-          #token: ${{ github.token }}
           script: |
             github.rest.issues.createComment({
               issue_number: context.issue.number,
