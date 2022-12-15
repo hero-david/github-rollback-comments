@@ -19,6 +19,14 @@ permissions: {}
 #  statuses: read|write|none
   
 jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "debug"
+        run: echo $JSON 
+        env:
+          JSON: ${{ toJSON(github) }}
+     
   comment_rollback:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == 'true'
