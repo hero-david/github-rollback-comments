@@ -1,0 +1,55 @@
+on:
+  push:
+    branches:
+      - "main"
+      - "master"
+
+
+permissions:
+  pull-requests: write
+
+jobs:     
+  comment_on_pr:
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: 8BitJonny/gh-get-current-pr@2.2.0
+        id: pr
+
+      - run: echo "Your PR number is ${{ steps.pr.outputs.number }} and its JSON is ${{ steps.pr.outputs.pr }}"
+
+      # TODO: reach out somewhere and get an actual version.
+      - name: "Fetch current version"
+        id: current_version
+        run: echo "version=1.0.0" >> $GITHUB_OUTPUT
+        
+      - uses: actions/github-script@v6
+        env:
+          ROLLBACK_VERSION: ${{ steps.current_version.outputs.version }}
+          DEPLOYMENT_VERSION: ${{ github.run_number }} 
+          DEPLOYMENT_NAME: ${{ github.event.repository.name }}
+          NAMESPACE: ${{ github.ref_name}}
+          PR: ${{ steps.pr.outputs.number }}
+        with:
+          script: |
+            const { ROLLBACK_VERSION, DEPLOYMENT_VERSION, DEPLOYMENT_NAME, NAMESPACE, PR } = process.env
+
+            github.rest.issues.createComment({
+              issue_number: PR,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `TRIGGER: push
+            🚀 Whoosh! ✨ There's your code, off she goes! 🧙
+
+            **${ROLLBACK_VERSION} => ${DEPLOYMENT_VERSION}** 
+
+            You can rollback with the following command:
+            \`\`\`console
+            kubectl rollout undo deployment ${DEPLOYMENT_NAME}-deployment
+            \`\`\`
+
+                
+            Or, to set rollback using an explicit image tag:
+            \`\`\`console
+            kubectl set image deployment/${DEPLOYMENT_NAME} container=${DEPLOYMENT_NAME} --record=true --namespace=${NAMESPACE}
+            \`\`\`
+            `})
