@@ -32,6 +32,8 @@ jobs:
           NAMESPACE: ${{ github.ref_name}}
         with:
           script: |
+            const { ROLLBACK_VERSION, DEPLOYMENT_VERSION, DEPLOYMENT_NAME, NAMESPACE } = process.env
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -40,7 +42,7 @@ jobs:
                There's your code, off she goes! 🧙
 
                Prior to your deployment, the build version was: ${ROLLBACK_VERSION}
-               This has been overwritten with: ${$DEPLOYMENT_VERSION}
+               This has been overwritten with: ${DEPLOYMENT_VERSION}
 
                You can rollback with the following command:
                   kubectl rollout undo deployment ${DEPLOYMENT_NAME}-deployment
