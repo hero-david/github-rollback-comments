@@ -40,8 +40,7 @@ jobs:
               repo: context.repo.repo,
               body: `🚀 Whoosh! ✨ There's your code, off she goes! 🧙
 
-            Prior to your deployment, the build version was: ${ROLLBACK_VERSION}
-            This has been overwritten with: ${DEPLOYMENT_VERSION}
+            **${ROLLBACK_VERSION} => ${DEPLOYMENT_VERSION}** 
 
             You can rollback with the following command:
             \`\`\`console
