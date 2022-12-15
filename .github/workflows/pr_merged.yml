@@ -20,11 +20,12 @@ permissions: {}
   
 jobs:
   comment_rollback:
+    runs-on: ubuntu-latest
     if: github.event.pull_request.merged == 'true'
     steps: 
       # TODO: reach out somewhere and get an actual version.
       - name: "Fetch current version"
-        runs: echo "" >> $GITHUB_OUTPUT
+        run: echo "" >> $GITHUB_OUTPUT
         
       - uses: actions/github-script@v5
         with:
